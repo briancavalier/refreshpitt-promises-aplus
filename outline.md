@@ -39,4 +39,5 @@
 		1. Implementations
 		1. DOM Promises
 		1. ES7 Promises
+	1. An open standard for sound, interoperable JavaScript promises—by implementers, for implementers.
 
