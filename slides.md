@@ -4,7 +4,7 @@
 // var input = ...
 try {
 	var result = computeResult(input);
-	displayResult();
+	displayResult(result);
 } catch(e) {
 	displayError(e);
 }
