@@ -22,6 +22,12 @@
 		1. composed map/reduce
 		1. sequence/parallel
 		1. nodefn call/apply/lift
+1. Promise pitfalls
+	1. Broken promise (chains): Return something!
+	1. "Silent" rejections
+		1. Platforms not promise aware (until ES7!)
+		1. when.js and Q have unhandled rejection monitoring/reporting
+		1. stack traces
 1. The future
 	1. Generators
 	1. Proxies/Remotes
@@ -39,5 +45,4 @@
 		1. Implementations
 		1. DOM Promises
 		1. ES7 Promises
-	1. An open standard for sound, interoperable JavaScript promises—by implementers, for implementers.
 
