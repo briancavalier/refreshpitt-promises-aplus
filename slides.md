@@ -269,7 +269,7 @@ var result = zomg();
 ---
 ```javascript
 // ES5 (and ES3)
-var promise = Users.get('brian')
+Users.get('brian')
 	.then(function(user) {
 		return user.fetchBlogPosts();
 	})
