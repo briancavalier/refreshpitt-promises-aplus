@@ -343,6 +343,9 @@ http://www.flickr.com/photos/pelegrino/6884873348
 * Climax
 
 ---
+# The Promises/A+ Drama
+
+---
 # Exposition
 
 ![Promises/A](img/promises-a.png)
@@ -357,10 +360,6 @@ http://wiki.commonjs.org/wiki/Promises/A
 ![jQuery Deferred Deceit](img/jquery.png)
 
 https://github.com/jquery/jquery/commit/a41f2406748e3113751ab1e5b5d990d9144123fc
-
----
-
-![Angry](img/angry.jpg)
 
 ---
 # Rising action
