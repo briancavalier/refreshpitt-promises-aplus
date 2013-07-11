@@ -1,4 +1,4 @@
-# Find the bug
+# Is this right?
 
 ```javascript
 // var input = ...
@@ -17,7 +17,7 @@ try {
 http://www.flickr.com/photos/zanehollingsworth/5701745474
 
 ---
-# Find the bug
+# Is this right?
 
 ```javascript
 computeResult(input, function(e, result) {
@@ -30,7 +30,7 @@ computeResult(input, function(e, result) {
 ```
 
 ---
-# Whew, ok, fixed
+# Fixed
 
 ```javascript
 computeResult(input, function(e, result) {
@@ -47,7 +47,7 @@ computeResult(input, function(e, result) {
 ```
 
 ---
-# Find the bug
+# Is this right?
 
 ```javascript
 function getTheResult() {
@@ -64,7 +64,7 @@ function getTheResult() {
 ```
 
 ---
-# Find the bug
+# Is this right?
 
 ```javascript
 function getTheResult(nodeCallback) {
@@ -79,80 +79,51 @@ function getTheResult(nodeCallback) {
             }
         }
 
-        try {
-            alwaysCleanup();
-        } catch(e) {
-            error = e;
-        }
+        alwaysCleanup();
 
         // If error is still falsey, we've succeeded
         nodeCallback(error, result);
     });
 }
-
-function thisMightFail(nodeCallback) {
-    var result, error;
-
-    // Do work, then:
-
-    if(error) {
-        nodeCallback(error);
-    } else {
-        nodeCallback(null, result);
-    }
-}
 ```
 
 ---
-# Find the bug
+# Is this right?
 
 ```javascript
 function getTheResult(onSuccess, onFailure) {
     thisMightFail(
         function(result) {
             try {
-                alwaysCleanup(); // finally
-                onSuccess(result); // showResult
+                onSuccess(result);
             } catch(e) {
-                onFailure(e); // showError
-            }
+                onFailure(e);
+            } finally {
+            	alwaysCleanup();
+        	}
         },
         function(error) {
             var recoveryResult;
             try {
-                recoveryResult = recoverFromFailure(error); // "catch" and recover
-                error = null; // successfully handled the error
+                recoveryResult = recoverFromFailure(error);
+                error = null;
             } catch(e) {
-                error = e; // recovery failed
+                error = e;
             }
 
             try {
-                alwaysCleanup(); // finally
+                alwaysCleanup();
             } catch(e) {
-                error = e; // cleanup failed
+                error = e;
             }
 
             if(error) {
-                // showError if *either* recovery or alwaysCleanup failed
                 onFailure(error);
             } else {
-                // We dodged all the bullets, showResult
                 onSuccess(recoveryResult);
             }
         }
     );
-}
-
-function thisMightFail(onSuccess, onFailure) {
-    var result, error;
-
-    // Do work, then:
-
-    if(error) {
-        onFailure(error)
-    } else {
-        onSuccess(result);
-    }
 }
 ```
 
@@ -164,8 +135,8 @@ http://www.flickr.com/photos/timsnell/7986996932
 ---
 # The problem
 
-* Recreate flow control and error handling machinery
 * Impossible to reason about and maintain
+* Recreate flow control and error handling machinery
 
 ---
 # Promises: The solution
@@ -173,7 +144,7 @@ http://www.flickr.com/photos/timsnell/7986996932
 ## Promises give you async versions of `return` and `throw`
 
 ---
-# Promises: The solution
+# Promises
 
 ```javascript
 computeResult(input)
@@ -182,11 +153,10 @@ computeResult(input)
 ```
 
 ---
-# Promises: The solution
+# Promises
 
 ```javascript
 function getTheResult() {
-
     return thisMightFail()
         .otherwise(recoverFromFailure);
         .ensure(alwaysCleanup);
@@ -196,18 +166,7 @@ function getTheResult() {
 ---
 # Promises
 
-## There must be something to this promise thing
-
-* MultiLisp, Act 1, Prolog concurrent logic variables
-* Joule and E promises
-* Java `java.util.concurrent.Future`
-* Python Twisted deferred
-* Dojo `Deferred`
-* F# `Async<T>`
-* .NET `Task<T>`
-* C++11 `std::future` and `std::promise`
-* Dart `Future<T>`
-* Scala `Future`
+* MultiLisp, Act 1, Prolog concurrent logic variables, Joule and E promises, `java.util.concurrent.Future`, Python Twisted deferred, Dojo `Deferred`, F# `Async<T>`, .NET `Task<T>`, C++11 `std::future` and `std::promise`, Dart `Future<T>`, Scala `Future`
 * Javascript Promises/A+
 
 ---
@@ -238,8 +197,8 @@ http://www.flickr.com/photos/rooners/4415074931
 ```javascript
 var when = require('when');
 
-var promise =
-	when.reduce(when.map($.get('/users'), getTags), appendToFile);
+var promise = when.reduce(
+	when.map($.get('/users'), getTags), appendToFile);
 ```
 
 ---
