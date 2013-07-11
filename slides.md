@@ -301,12 +301,12 @@ http://www.flickr.com/photos/rooners/4652345494
 	* and *stitch stack traces*
 
 ---
-# Promise pitfalls
+# Common mistakes
 
 * `return` something!!
 * Don't break the chain
-* rejection handlers work like `catch`, if you don't rethrow, the error is considered "handled" and won't propagate
-	* This is a *good thing*
+* rejection handlers work like `catch`, if you don't "rethrow", the error is considered "handled" and won't propagate
+	* This consistency is a *good thing*
 
 ---
 # Code smells
