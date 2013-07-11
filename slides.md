@@ -51,7 +51,6 @@ computeResult(input, function(e, result) {
 
 ```javascript
 function getTheResult() {
-
     try {
         return thisMightFail();
     } catch(e) {
@@ -59,7 +58,6 @@ function getTheResult() {
     } finally {
         alwaysCleanup();
     }
-
 }
 ```
 
@@ -68,7 +66,6 @@ function getTheResult() {
 
 ```javascript
 function getTheResult(nodeCallback) {
-
     thisMightFail(function(error, result) {
         if(error) {
             try {
@@ -154,6 +151,8 @@ computeResult(input)
 	.otherwise(displayError);
 ```
 
+http://know.cujojs.com/tutorials/async/mastering-async-error-handling-with-promises
+
 ---
 # Promises
 
@@ -164,6 +163,8 @@ function getTheResult() {
         .ensure(alwaysCleanup);
 }
 ```
+
+http://know.cujojs.com/tutorials/async/mastering-async-error-handling-with-promises
 
 ---
 # Promises
@@ -182,8 +183,9 @@ http://www.flickr.com/photos/rooners/4415074931
 ```javascript
 var when = require('when');
 
-var promise = when.reduce(
-	when.map($.get('/users'), getTags), appendToFile);
+when.reduce(
+	when.map($.get('/users'), getTags), groupTags)
+	.then(displayTags);
 ```
 
 ---
@@ -194,18 +196,11 @@ var fs = require('fs');
 var readFile = nodefn.lift(fs.readFile);
 var writeFile = nodefn.lift(fs.writeFile);
 
-var promise = writeFile('out.txt', readFile('in.txt'));
+writeFile('out.txt', readFile('in.txt'));
 ```
 
 ---
 
-```javascript
-// Using @domenic's chai-as-promised
-
-expect(promise).to.eventually.equal(10);
-```
-
----
 # Let's talk about
 
 ## The future
