@@ -196,6 +196,7 @@ var fs = require('fs');
 var readFile = nodefn.lift(fs.readFile);
 var writeFile = nodefn.lift(fs.writeFile);
 
+// This all happens async:
 writeFile('out.txt', readFile('in.txt'));
 ```
 
