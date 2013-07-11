@@ -1,7 +1,7 @@
 # Is this right?
 
 ```javascript
-// var input = ...
+var input = //...
 try {
 	var result = computeResult(input);
 	displayResult(result);
@@ -141,7 +141,9 @@ http://www.flickr.com/photos/timsnell/7986996932
 ---
 # Promises: The solution
 
-## Promises give you async versions of `return` and `throw`
+Promises give you async versions of `return` and `throw`.
+
+They let you take back the call stack.
 
 ---
 # Promises
@@ -170,29 +172,12 @@ function getTheResult() {
 * Javascript Promises/A+
 
 ---
-# Just do it
-
-* when.js
-* Q
-* RSVP
-
----
 # Let's talk about
 
 ![Tardis](img/tardis2.jpg)
 http://www.flickr.com/photos/rooners/4415074931
 
 ---
-# Promises are building blocks
-
-* map
-* reduce
-* map/reduce
-* sequence/parallel tasks
-* promisify other style async APIs
-
----
-# Promises are building blocks
 
 ```javascript
 var when = require('when');
@@ -202,7 +187,6 @@ var promise = when.reduce(
 ```
 
 ---
-# Promises are building blocks
 
 ```javascript
 var nodefn = require('when/node/function');
@@ -214,7 +198,6 @@ var promise = writeFile('out.txt', readFile('in.txt'));
 ```
 
 ---
-# Promises are building blocks
 
 ```javascript
 // Using @domenic's chai-as-promised
@@ -318,6 +301,11 @@ promise.then(doSomething);
 return promise;
 ```
 
+```javascript
+// You probably meant:
+return promise.then(doSomething);
+```
+
 ---
 # Code smells
 
@@ -330,14 +318,17 @@ return promise.otherwise(function(e) {
 ```
 
 ```javascript
-// It's the async version of this:
-try {
-	// ...
-	return getUsefulResult();
-} catch(e) {
+// Preferably, let the error be handled higher
+// in the call stack, like exceptions!
+return promise;
+```
+
+```javascript
+// But if you must:
+return promise.otherwise(function(e) {
 	logError(e);
-	return;
-}
+	throw e;
+});
 ```
 
 ---
@@ -460,7 +451,7 @@ http://dom.spec.whatwg.org/#promises
 * Character
 * Theme
 * Diction
-* Setting (music, spectacle)
+* Music & spectacle (setting)
 
 ---
 # Plot
@@ -476,6 +467,8 @@ http://dom.spec.whatwg.org/#promises
 # Theme
 
 ## Extend the web forward
+
+http://yehudakatz.com/2013/05/21/extend-the-web-forward/
 
 ---
 # Diction
@@ -504,3 +497,9 @@ SpringJS @ Pivotal
 [promisesaplus.com](http://promisesaplus.com) co-editor
 
 [@promisesaplus](http://twitter.com/promisesaplus)
+
+---
+# Credits
+
+* Promises/A+ contributors and community
+* [Boom, Promises/A+ was born](http://www.slideshare.net/domenicdenicola/boom-promisesa-was-born) Domenic Denicola @ JSConf US 2013
