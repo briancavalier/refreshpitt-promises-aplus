@@ -185,6 +185,8 @@ function getTheResult() {
 ---
 # Promises
 
+## There must be something to this promise thing
+
 * MultiLisp, Act 1, Prolog concurrent logic variables
 * Joule and E promises
 * Java `java.util.concurrent.Future`
@@ -196,36 +198,6 @@ function getTheResult() {
 * Dart `Future<T>`
 * Scala `Future`
 * Javascript Promises/A+
-
----
-# Promises are building blocks
-
-* map
-* reduce
-* map/reduce
-* sequence/parallel tasks
-* promisify other style async APIs
-
----
-# Promises are building blocks
-
-```javascript
-var when = require('when');
-
-when.reduce(when.map($.get(url), mapFunc), reduceFunc);
-```
-
----
-# Promises are building blocks
-
-```javascript
-var nodefn = require('when/node/function');
-var fs = require('fs');
-var readFile = nodefn.lift(fs.readFile);
-var writeFile = nodefn.lift(fs.writeFile);
-
-writeFile('out.txt', readFile('in.txt'));
-```
 
 ---
 # Promise aren't perfect
@@ -244,18 +216,154 @@ writeFile('out.txt', readFile('in.txt'));
 	* This is a *good thing*
 
 ---
-# Code smell
+# Code smells
 
+---
 ```javascript
 promise.then(doSomething);
 return promise;
 ```
 
 ---
-# Code smell
-
 ```javascript
 return promise.otherwise(function(e) {
 	logError(e);
 });
 ```
+
+---
+# Promises are building blocks
+
+* map
+* reduce
+* map/reduce
+* sequence/parallel tasks
+* promisify other style async APIs
+
+---
+# Promises are building blocks
+
+```javascript
+var when = require('when');
+
+var promiseForReduced =
+	when.reduce(when.map($.get(url), mapFunc), reduceFunc);
+```
+
+---
+# Promises are building blocks
+
+```javascript
+var nodefn = require('when/node/function');
+var fs = require('fs');
+var readFile = nodefn.lift(fs.readFile);
+var writeFile = nodefn.lift(fs.writeFile);
+
+var promise = writeFile('out.txt', readFile('in.txt'));
+```
+
+---
+```javascript
+// Using @domenic's chai-as-promised
+
+expect(promise).to.eventually.equal(10);
+```
+
+---
+# The future
+
+---
+```javascript
+function* someNumbers() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+var iterator = someNumbers();
+
+console.log(iterator.next()); // { value: 1, done: false }
+console.log(iterator.next()); // { value: 2, done: false }
+console.log(iterator.next()); // { value: 3, done: false }
+console.log(iterator.next()); // { value: undefined, done: true }
+```
+
+---
+```javascript
+// thisMightFail, recoverFromFailure, and
+// alwaysCleanup are ASYNC!
+
+var zomg = promisedGenerator(function* () {
+	var result;
+
+    try {
+        result = yield thisMightFail();
+    } catch(e) {
+        result = yield recoverFromFailure(e);
+    } finally {
+        yield alwaysCleanup();
+    }
+
+    yield result;
+});
+
+var result = zomg();
+
+---
+```javascript
+Proxies
+```
+
+---
+# Promises/A+
+
+## An open standard for sound, interoperable JavaScript promises—by implementers, for implementers.
+
+---
+# Promises/A win
+
+`http://wiki.commonjs.org/wiki/Promises/A`
+
+---
+# $.Deferred fail
+
+`http://bugs.jquery.com/ticket/11010`
+`https://github.com/jquery/jquery/commit/a41f2406748e3113751ab1e5b5d990d9144123fc`
+
+---
+# More fail
+
+`https://github.com/emberjs/ember.js/pull/1406`
+
+---
+# A rant
+
+`https://gist.github.com/domenic/3889970`
+
+---
+# A gist
+
+`https://gist.github.com/briancavalier/eb5fc157825a170c9957`
+
+---
+# Boom
+
+`http://promisesaplus.com`
+
+---
+implementations.md
+
+---
+DOM Promises
+
+---
+ES7
+
+---
+# Thanks!
+
+[@briancavalier](http://twitter.com/briancavalier)
+[cujoJS](http://cujojs.com)
+
+[promisesaplus.com](http://promisesaplus.com)
+[@promisesaplus](http://twitter.com/promisesaplus)
