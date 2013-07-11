@@ -4,6 +4,10 @@ My talk at Refresh Pittsburgh, July 11, 2013.
 
 ### Quick start
 
+View the [plain markdown version of the slides](slides.md)
+
+Or the pretty html:
+
 1. Make sure you have [node and npm](http://nodejs.org)
 1. Download/fork/clone this repo
 1. `cd <cloned dir>`
