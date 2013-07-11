@@ -16,6 +16,10 @@ footer p {
 	color: #666;
 }
 
+pre > code {
+	font-size: .65em;
+}
+
 #slide-container {
 	margin-top: 4em;
 	background: none;
@@ -26,8 +30,14 @@ footer p {
 	color: #eee;
 }
 
+.slide img {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+}
+
 .slide h1 {
-	font-size: 3.2em;
+	font-size: 2.5em;
 	font-weight: bold;
 	color: #666;
 	margin-bottom: 0;
@@ -46,9 +56,15 @@ footer p {
 }
 
 .slide h2 {
+	font-size: 1.25em;
 	color: #ccc;
 	margin-top: 0;
 	margin-left: .5em;
+}
+
+.slide h3 {
+	font-size: 1.5em;
+	text-align: center;
 }
 
 .slide p {

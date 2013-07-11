@@ -11,6 +11,12 @@ try {
 ```
 
 ---
+# Let's talk about
+
+![Bug](img/bug.jpg)
+http://www.flickr.com/photos/zanehollingsworth/5701745474
+
+---
 # Find the bug
 
 ```javascript
@@ -24,7 +30,7 @@ computeResult(input, function(e, result) {
 ```
 
 ---
-# Find the bug
+# Whew, ok, fixed
 
 ```javascript
 computeResult(input, function(e, result) {
@@ -151,6 +157,11 @@ function thisMightFail(onSuccess, onFailure) {
 ```
 
 ---
+
+![WAT](img/scared.jpg)
+http://www.flickr.com/photos/timsnell/7986996932
+
+---
 # The problem
 
 * Recreate flow control and error handling machinery
@@ -178,7 +189,7 @@ function getTheResult() {
 
     return thisMightFail()
         .otherwise(recoverFromFailure);
-        .then(alwaysCleanup, alwaysCleanup);
+        .ensure(alwaysCleanup);
 }
 ```
 
@@ -200,36 +211,17 @@ function getTheResult() {
 * Javascript Promises/A+
 
 ---
-# Promise aren't perfect
+# Just do it
 
-* VMs/platforms aren't promise-aware
-* disjoint or missing stack traces
-* when.js and Q can trap and report unhandled rejections
-	* both stitch long stack traces
-
----
-# Promise pitfalls
-
-* `return` something!!
-* Don't break the chain
-* rejection handlers work like `catch`, if you don't rethrow, the error is considered "handled" and won't propagate
-	* This is a *good thing*
+* when.js
+* Q
+* RSVP
 
 ---
-# Code smells
+# Let's talk about
 
----
-```javascript
-promise.then(doSomething);
-return promise;
-```
-
----
-```javascript
-return promise.otherwise(function(e) {
-	logError(e);
-});
-```
+![Tardis](img/tardis2.jpg)
+http://www.flickr.com/photos/rooners/4415074931
 
 ---
 # Promises are building blocks
@@ -246,8 +238,8 @@ return promise.otherwise(function(e) {
 ```javascript
 var when = require('when');
 
-var promiseForReduced =
-	when.reduce(when.map($.get(url), mapFunc), reduceFunc);
+var promise =
+	when.reduce(when.map($.get('/users'), getTags), appendToFile);
 ```
 
 ---
@@ -263,6 +255,8 @@ var promise = writeFile('out.txt', readFile('in.txt'));
 ```
 
 ---
+# Promises are building blocks
+
 ```javascript
 // Using @domenic's chai-as-promised
 
@@ -270,7 +264,11 @@ expect(promise).to.eventually.equal(10);
 ```
 
 ---
-# The future
+# Let's talk about
+
+## The future
+
+![Head explosion](img/head-explode.jpg)
 
 ---
 ```javascript
@@ -285,14 +283,13 @@ var iterator = someNumbers();
 console.log(iterator.next()); // { value: 1, done: false }
 console.log(iterator.next()); // { value: 2, done: false }
 console.log(iterator.next()); // { value: 3, done: false }
-console.log(iterator.next()); // { value: undefined, done: true }
+console.log(iterator.next()); // { done: true }
 ```
 
 ---
 ```javascript
 // thisMightFail, recoverFromFailure, and
 // alwaysCleanup are ASYNC!
-
 var zomg = promisedGenerator(function* () {
 	var result;
 
@@ -308,62 +305,243 @@ var zomg = promisedGenerator(function* () {
 });
 
 var result = zomg();
+```
 
 ---
 ```javascript
-Proxies
+// ES5 (and ES3)
+var promise = Users.get('brian')
+	.then(function(user) {
+		return user.fetchBlogPosts();
+	})
+	.then(function(posts) {
+		return posts.toHtml();
+	})
+	.then(function(html) {
+		container.innerHTML = html;
+	});
 ```
+
+```
+// ES6
+container.innerHTML = yield Users.brian.posts.toHtml();
+```
+
+---
+# Let's talk about
+
+![Cybermen!](img/cybermen.jpg)
+http://www.flickr.com/photos/rooners/4652345494
+
+---
+# Promise aren't perfect
+
+* VMs/platforms aren't promise-aware
+* disjoint or missing stack traces
+* when.js and Q can trap and report unhandled rejections
+	* and *stitch stack traces*
+
+---
+# Promise pitfalls
+
+* `return` something!!
+* Don't break the chain
+* rejection handlers work like `catch`, if you don't rethrow, the error is considered "handled" and won't propagate
+	* This is a *good thing*
+
+---
+# Code smells
+
+```javascript
+// You sly dog:
+// If doSomething fails, no one will ever know
+promise.then(doSomething);
+return promise;
+```
+
+---
+# Code smells
+
+```javascript
+// Oops, you returned `undefined` which
+// turns this rejection into a success
+return promise.otherwise(function(e) {
+	logError(e);
+});
+```
+
+```javascript
+// It's the async version of this:
+try {
+	// ...
+	return getUsefulResult();
+} catch(e) {
+	logError(e);
+	return;
+}
+```
+
+---
+# Let's talk about
+
+![Aristotle](img/aristotle.jpg)
+
+http://www.flickr.com/photos/pelegrino/6884873348
+
+---
+# Aristotle: Poetics
+
+* Exposition
+* Inciting incident
+* Rising action
+* Climax
+
+---
+# Exposition
+
+![Promises/A](img/promises-a.png)
+
+http://wiki.commonjs.org/wiki/Promises/A
+
+---
+# Inciting incident
+
+## Deceit!
+
+![jQuery Deferred Deceit](img/jquery.png)
+
+https://github.com/jquery/jquery/commit/a41f2406748e3113751ab1e5b5d990d9144123fc
+
+---
+
+![Angry](img/angry.jpg)
+
+---
+# Rising action
+
+## Complications!
+
+![Ember.Deferred Shenanigans](img/ember.png)
+
+https://github.com/emberjs/ember.js/pull/1406
+
+---
+# Rising action
+
+## Conflict!
+
+![Domenic's You're Missing the Point of Promises](img/domenic-gist.png)
+
+https://gist.github.com/domenic/3889970
+
+---
+# Rising action
+
+## Heroics!
+
+![Domenic's Promises/A Test Suite](img/promises-a-tests.png)
+
+https://github.com/domenic/promise-tests
+
+---
+# Rising action
+
+## Action!
+
+![Brian's original Promises/A+ proposal gist](img/promises-aplus-gist.png)
+
+https://gist.github.com/briancavalier/eb5fc157825a170c9957
+
+---
+# Boom!
+
+## Explosions!
+
+[![Promises/A+](img/promises-aplus.png)](http://promisesaplus.com)
+
+http://promisesaplus.com
+
+---
+# Promises/A+ test suite
+
+![Promises/A+ Test Suite](img/promises-aplus-tests.png)
+
+https://github.com/promises-aplus/promises-tests
+
+---
+# Promises/A+ stats
+
+* 33 verified implementations, more every week
+* Several "inspired by Promises/A+" *in other languages*
+
+---
+# DOM Promises
+
+![DOM Promises](img/dom-promises.png)
+
+http://dom.spec.whatwg.org/#promises
+
+---
+# ES7
+
+## Slated to have Promises as a language feature
+
+![Happy!](img/happy.jpg "http://pinkbluelovescute.com/2012/09/a-very-happy-dog")
+
+---
+
+# Wait, what?!?
+
+## How did all this happen in about 6 months
+
+---
+# Aristotle: Poetics
+
+* Plot
+* Character
+* Theme
+* Diction
+* Setting (music, spectacle)
+
+---
+# Plot
+
+## Sane JavaScript asynchrony
+
+---
+# Character
+
+## Strong and cooperative community of implementors and users
+
+---
+# Theme
+
+## Extend the web forward
+
+---
+# Diction
+
+## Minimal spec for sanity and interoperability
+
+---
+# Setting
+
+## Github
 
 ---
 # Promises/A+
 
-## An open standard for sound, interoperable JavaScript promises—by implementers, for implementers.
-
----
-# Promises/A win
-
-`http://wiki.commonjs.org/wiki/Promises/A`
-
----
-# $.Deferred fail
-
-`http://bugs.jquery.com/ticket/11010`
-`https://github.com/jquery/jquery/commit/a41f2406748e3113751ab1e5b5d990d9144123fc`
-
----
-# More fail
-
-`https://github.com/emberjs/ember.js/pull/1406`
-
----
-# A rant
-
-`https://gist.github.com/domenic/3889970`
-
----
-# A gist
-
-`https://gist.github.com/briancavalier/eb5fc157825a170c9957`
-
----
-# Boom
-
-`http://promisesaplus.com`
-
----
-implementations.md
-
----
-DOM Promises
-
----
-ES7
+## An open standard for sound, interoperable JavaScript promises&mdash;by implementers, for implementers.
 
 ---
 # Thanks!
 
 [@briancavalier](http://twitter.com/briancavalier)
-[cujoJS](http://cujojs.com)
 
-[promisesaplus.com](http://promisesaplus.com)
+SpringJS @ Pivotal
+
+[cujoJS](http://cujojs.com) co-founder
+
+[promisesaplus.com](http://promisesaplus.com) co-editor
+
 [@promisesaplus](http://twitter.com/promisesaplus)

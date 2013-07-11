@@ -89,6 +89,10 @@ pre code {
 	margin-bottom: .25em;
 }
 
+.slide li > ul {
+	margin-top: .5em;
+}
+
 .no-touch .slide-touch {
 	display: none;
 }
